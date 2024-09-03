@@ -1,0 +1,47 @@
+Daniel Biedron
+
+In order to compile this code: 
+
+    1. Create a build directory build-dir in highlighter.
+
+    2. Then, cd into build-dir.
+
+    3. Run 'cmake ..' with no quotes.
+
+    4. Run 'make' with no quotes.
+
+In order to run the tool:
+
+    1. From build-dir, the tool can be run as './hl <filenamepath>.png <filenamepath>.xml'
+       without quotes.
+
+       a. The string <filenamepath> must be the same for both the .png and .xml
+          files.
+
+       b. The order and file format are strict, so .png comes before .xml.
+
+Description of solution and design decisions:
+
+    1. Language: C++ is the language I have used most often and with which I am more comfortable.
+
+    2. Libraries: I chose tinyxml2 and CImg because they were commonly described as light-weight 
+       and recommended for basic use-cases. CImg required libpng for png I/O, and libpng relies
+       on the zlib compression library, so the libpng and zlib libraries were included in the build.
+
+    3. I had no experience with building projects with third party dependencies (with the exception
+       of CSCI 437, in which a cmake script for working with SDL was provided to us) or distributing
+       those dependencies. As such, the vast majority of development time for this tool went into 
+       figuring out how to work with libraries, as well as fixing problems with the build. Therefore,
+       compromises were made with respect to the scope of functionality:
+
+       a. The tool relies on a strict usage in order to reduce the complexity needed to parse input,
+          and therefore the amount of time needed to code the tool. It is for that reason that the 
+          tool takes a single .png .xml pair at a time with a strict file naming convention, and 
+          rejects pairings where either file is unable to be opened or read.
+
+       b. Because extrapolating the intended meaning of non-well-formed or incorrect XML would be
+          a highly complex task, the tool instead requires that XML be well-formed. It is therefore
+          unable to work with XML that does not comply with the XML standard.
+
+       c. The tool saves the output image to the same directory as <filenamepath> as 
+          <filenamepath>-hl.png again in order to reduce development complexity.
